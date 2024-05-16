@@ -1,0 +1,79 @@
+import 'package:flutter/material.dart';
+
+// Define la clase MyImage
+class MyImage {
+  final String nombre;
+  final dynamic imagen; // Puede ser String (para la URL) o AssetImage (para el recurso local)
+  final String categoria;
+  final String style;
+
+  MyImage({required this.nombre, required this.imagen, required this.categoria, required this.style});
+}
+
+// Lista de imágenes
+List<MyImage> listaImagen = [
+  MyImage(
+    nombre: 'Ciudad de Lima',
+    imagen: AssetImage('assets/images/lima.jpg'),
+    categoria: 'Lugar',
+    style: 'OpenSans'
+  ),
+  MyImage(
+    nombre: 'Causa rellena',
+    imagen: AssetImage('assets/images/causa.jpg'),
+    categoria: 'Alimentos',
+    style: 'OpenSans'
+  ),
+  MyImage(
+    nombre: 'Animal gato',
+    imagen: AssetImage('assets/images/gato.jpg'),
+    categoria: 'Animal',
+    style: 'Lato'
+  ),
+  MyImage(
+    nombre: 'Piura',
+    imagen: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Piura_desde_el_aire.jpg/1200px-Piura_desde_el_aire.jpg'),
+    categoria: 'Lugar',
+    style: 'Ubuntu'
+  ),
+];
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'App',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Mis Imagenes'),
+        ),
+        body: ListView.builder(
+          itemCount: listaImagen.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              leading: Container(
+                width: 100,
+                height: 100,
+                child: _buildImage(listaImagen[index].imagen),
+              ),
+              title: Text(listaImagen[index].nombre, style: TextStyle(fontFamily: listaImagen[index].style)),
+              subtitle: Text(listaImagen[index].categoria),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImage(dynamic imagen) {
+    if (imagen is AssetImage) {
+      return Image(image: imagen, fit: BoxFit.cover);
+    } else if (imagen is NetworkImage) {
+      return Image(image: imagen, fit: BoxFit.cover);
+    } else {
+      throw ArgumentError('Tipo de imagen no admitido');
+    }
+  }
+}
