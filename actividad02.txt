@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class Product {
+  final String title;
+  final String description;
+  final double price;
+  final String image;
+
+  Product({required this.title, required this.description, required this.price, required this.image});
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Detalles del Producto',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: ProductDetailsScreen(
+        product: Product(
+          title: 'Peluche de Pochita',
+          description: 'Peluche de pochita del anime Chainsaw Man, de 20cm de altura, material de lana y envío a domicilio.',
+          price: 50.00,
+          image: 'assets/images/pochita.jpeg',
+        ),
+      ),
+    );
+  }
+}
+
+class ProductDetailsScreen extends StatelessWidget {
+  final Product product;
+
+  ProductDetailsScreen({required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Detalles del Producto'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Image.asset(product.image, height: 200,width: 500), // Cambiar por Image.network(
+
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    product.title,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Montserrat'
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    product.description,
+                    style: TextStyle(fontSize: 16,fontFamily: 'Nunito'),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    '\$${product.price.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                      fontFamily: 'Roboto'
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
